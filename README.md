@@ -303,6 +303,7 @@ __Result:__<br>
 ✅ Case 3: Remote state with locking (Best practice)
 
 > Example: S3 + DynamoDB
+
 __What happens:__<br>
 ① User A runs terraform apply<br>
 ② Terraform acquires a lock in DynamoDB<br>
