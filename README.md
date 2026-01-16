@@ -2,7 +2,6 @@
 
 Github repository
 Terraform Resources and Code Git Location: ([https://github.com/anshulc55/terraform])
-<------------------------------------------------------------------------------->
 ## Install Terraform
 
 ### Install Terraform on Mac Machine -
@@ -43,9 +42,7 @@ echo "Install files cleaned up."
 8. Click OK on each of the menus you’ve opened up until there’s no more left.
 9. To make sure that Windows detects the new path, open a new CMD/PowerShell prompt and enter refreshenv. or close the opened PowerShell window and Open New One.
 10. Verify the installation was successful by entering terraform --version. If it returns a version, you’re good to go.
-<!------------------------------------------------------------------------------->
 
-<------------------------------------------------------------------------------->
 ## Run Terraform
 
 ```shell
@@ -98,13 +95,11 @@ terraform workspace $WORKSPACE $ENV
 terraform workspace select $ENV
 terraform apply
 ```
-<!------------------------------------------------------------------------------->
 ```shell
 grep -R "resource \"aws_lb\"" .
 grep -R "resource \"aws_lb_target_group\"" .
 grep -R "resource \"aws_ecs_service\"" .
 ```
-<------------------------------------------------------------------------------->
 ## Terraform Info
 
 ```shell
@@ -350,4 +345,3 @@ Local state	💥 Corruption
 Remote no lock	⚠️ Lost updates
 Remote + lock
 
-<!------------------------------------------------------------------------------->
