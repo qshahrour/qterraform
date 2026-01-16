@@ -4,6 +4,7 @@ terraform {
     bucket  = "eks-terraform-state-backend-qasem"
     key     = "tfstate"
     region  = "us-east-1"
+    dynamodb_table = "terraform-locks"  
     profile = "new"
   }
 
