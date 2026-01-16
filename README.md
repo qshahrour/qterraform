@@ -300,7 +300,7 @@ __Result:__<br>
 ③ Infrastructure may be partially updated<br>
 ④ Terraform might destroy resources unexpectedly later<br>
 
-✅ Case 3: Remote state with locking (Best practice)
+✅ Case 2: Remote state with locking (Best practice)
 
 > Example: S3 + DynamoDB
 
