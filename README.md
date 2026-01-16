@@ -30,18 +30,27 @@ echo "Install files cleaned up."
 
 ### Install Terraform on Windows 10 -
 
-1️⃣  Download the appropriate version of Terraform from HashiCorp’s download page. In my case, it’s the Windows 64-bit version.
+1️⃣ Download the appropriate version of Terraform from HashiCorp’s download page. In my case, it’s the Windows 64-bit version.
+
 2️⃣ Make a folder on your C:\ drive where you can put the Terraform executable. I prefer to place installers in a subfolder (e.g. C:\tools) where you can put binaries.
+
 3️⃣ After the download finishes, go find it in File Explorer. Extract the zip file to the folder you created in step 2.
+
 4️⃣ Open your Start Menu and type in “environment” and the first thing that comes up should be Edit the System Environment Variables option. Click on that and you should see this window.
 ![alt text](./images/image.png)
+
 5️⃣ Click on Environment Variables… at the bottom and you’ll see this:
 ![alt text](./images/image-1.png)
+
 6️⃣ Under the bottom section where it says System Variables, find one called Path and click edit. You’ll then see a list of where to find the binaries that Windows might need for any given reason.
+
 7️⃣ Click New and add the folder path where terraform.exe is located to the bottom of the list. It should look like this when you finish.
 ![alt text](./images/image-2.png)
+
 8️⃣ Click OK on each of the menus you’ve opened up until there’s no more left.
+
 9️⃣ To make sure that Windows detects the new path, open a new CMD/PowerShell prompt and enter refreshenv. or close the opened PowerShell window and Open New One.
+
 🔟 Verify the installation was successful by entering terraform --version. If it returns a version, you’re good to go.
 
 ## Run Terraform
