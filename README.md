@@ -262,10 +262,10 @@ __Plus DynamoDB permissions if locking is enabled.__
 aws s3 ls s3://terraform-state-bucket-qasem/eks/
 ```
 __🚫 Common mistakes to avoid__
-❌ Using local backend + scripts
-❌ Committing terraform.tfstate to Git
-❌ Sharing state files without locking
-❌ Using the same state file for multiple environments
+❌ Using local backend + scripts.
+❌ Committing terraform.tfstate to Git.
+❌ Sharing state files without locking.
+❌ Using the same state file for multiple environments.
 
 __🟢 Bonus: Separate state per environment__
 key = "eks/${terraform.workspace}/terraform.tfstate"
@@ -359,7 +359,7 @@ __✅ Best practice in teams__
 ④ State stored remotely
 
 __🟢 Summary__
-Setup	Outcome
-① Local state	💥 Corruption
-② Remote no lock	⚠️ Lost updates
+Setup   Outcome
+① Local state   💥 Corruption
+② Remote no lock        ⚠️ Lost updates
 ③ Remote + lock
