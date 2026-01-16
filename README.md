@@ -232,11 +232,11 @@ __Every time you run:__
 ```shell
 terraform apply
 ```
-__Terraform will:__
-① Lock state in DynamoDB
-② Apply changes
-③ Upload updated terraform.tfstate to S3
-④ Release lock
+__Terraform will:__<br>
+① Lock state in DynamoDB<br>
+② Apply changes<br>
+③ Upload updated terraform.tfstate to S3<br>
+④ Release lock<br>
 
 ### ✅ No manual upload needed.
 __🔒 IAM permissions required__
@@ -261,54 +261,54 @@ __Plus DynamoDB permissions if locking is enabled.__
 ```shell
 aws s3 ls s3://terraform-state-bucket-qasem/eks/
 ```
-__🚫 Common mistakes to avoid__
-❌ Using local backend + scripts.
-❌ Committing terraform.tfstate to Git.
-❌ Sharing state files without locking.
-❌ Using the same state file for multiple environments.
+__🚫 Common mistakes to avoid__<br>
+❌ Using local backend + scripts<br>
+❌ Committing terraform.tfstate to Git<br>
+❌ Sharing state files without locking<br>
+❌ Using the same state file for multiple environments<br>
 
-__🟢 Bonus: Separate state per environment__
-key = "eks/${terraform.workspace}/terraform.tfstate"
+__🟢 Bonus: Separate state per environment__<br>
+key = "eks/${terraform.workspace}/terraform.tfstate"<br>
 
-❌ Case 1: Local state (no remote backend)
-__Worst case__
-What happens:
-① Both users run terraform apply
-② Each has their own local terraform.tfstate
-③ Terraform has no idea the other apply exists
+❌ Case 1: Local state (no remote backend)<br>
+__Worst case__<br>
+What happens:<br>
+① Both users run terraform apply<br>
+② Each has their own local terraform.tfstate<br>
+③ Terraform has no idea the other apply exists<br>
 
-__Result:__
-Resources get created/modified twice
-① State files diverge
-② Future applies cause deletes, recreates, or drift
-③ Manual recovery required
+__Result:__<br>
+Resources get created/modified twice<br>
+① State files diverge<br>
+② Future applies cause deletes, recreates, or drift<br>
+③ Manual recovery required<br>
 
-⚠️ This is how infrastructures get corrupted.
-⚠️ Case 2: Remote state without locking
+⚠️ This is how infrastructures get corrupted.<br>
+⚠️ Case 2: Remote state without locking<br>
 
 > Example: S3 backend without DynamoDB
 
-__What happens:__
-① User A reads state
-② User B reads same state
-③ Both apply changes
-④ Last writer wins
+__What happens:__<br>
+① User A reads state<br>
+② User B reads same state<br>
+③ Both apply changes<br>
+④ Last writer wins<br>
 
-__Result:__
-① State file overwritten
-② Lost updates
-③ Infrastructure may be partially updated
-④ Terraform might destroy resources unexpectedly later
+__Result:__<br>
+① State file overwritten<br>
+② Lost updates<br>
+③ Infrastructure may be partially updated<br>
+④ Terraform might destroy resources unexpectedly later<br>
 
 ✅ Case 3: Remote state with locking (Best practice)
 
 > Example: S3 + DynamoDB
-__What happens:__
-① User A runs terraform apply
-② Terraform acquires a lock in DynamoDB
-③ User B runs terraform apply
-④ User B is blocked
-⑤ User B sees:
+__What happens:__<br>
+① User A runs terraform apply<br>
+② Terraform acquires a lock in DynamoDB<br>
+③ User B runs terraform apply<br>
+④ User B is blocked<br>
+⑤ User B sees:<br>
 
 Error acquiring the state lock
 Lock Info:
@@ -316,24 +316,24 @@ Lock Info:
   Operation: OperationTypeApply
   Who:       userA@hostname
 
-__Result:__
-① Only one apply runs at a time
-② State remains consistent
-③ No corruption
-* User B must wait or retry
+__Result:__<br>
+① Only one apply runs at a time<br>
+② State remains consistent<br>
+③ No corruption<br>
+* User B must wait or retry<br>
 
-__🧠 Important details__
-__What if User A crashes?__
-① Lock remains
-② User B cannot apply
-③ Fix (safe):
+__🧠 Important details__<br>
+__What if User A crashes?__<br>
+① Lock remains<br>
+② User B cannot apply<br>
+③ Fix (safe):<br>
 ```shell
 terraform force-unlock <LOCK_ID>
 ```
 
-__What about terraform plan?__
-① Multiple users can run plan safely
-② plan does not lock state (read-only)
+__What about terraform plan?__<br>
+① Multiple users can run plan safely<br>
+② plan does not lock state (read-only)<br>
 ```yaml
 🔒 Recommended setup (must-have)
 terraform {
@@ -346,20 +346,20 @@ terraform {
   }
 }
 ```
-__🚨 What NOT to do__
-❌ Run Terraform from multiple laptops
-❌ Share state without locking
-❌ Manually edit state files
-❌ Run applies outside CI/CD
+__🚨 What NOT to do__<br>
+❌ Run Terraform from multiple laptops<br>
+❌ Share state without locking<br>
+❌ Manually edit state files<br>
+❌ Run applies outside CI/CD<br>
 
-__✅ Best practice in teams__
-① Single CI/CD pipeline runs terraform apply
-② Developers run terraform plan only
-③ Locking enabled
-④ State stored remotely
+__✅ Best practice in teams__<br>
+① Single CI/CD pipeline runs terraform apply<br>
+② Developers run terraform plan only<br>
+③ Locking enabled<br>
+④ State stored remotely<br>
 
-__🟢 Summary__
-Setup   Outcome
-① Local state   💥 Corruption
-② Remote no lock        ⚠️ Lost updates
-③ Remote + lock
+__🟢 Summary__<br>
+Setup   Outcome<br>
+① Local state   💥 Corruption<br>
+② Remote no lock        ⚠️ Lost updates<br>
+③ Remote + lock<br>
