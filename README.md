@@ -2,6 +2,7 @@
 
 Github repository
 Terraform Resources and Code Git Location: ([https://github.com/anshulc55/terraform])
+
 ## Install Terraform
 
 ### Install Terraform on Mac Machine -
@@ -29,33 +30,37 @@ echo "Install files cleaned up."
 
 ### Install Terraform on Windows 10 -
 
-1. Download the appropriate version of Terraform from HashiCorp’s download page. In my case, it’s the Windows 64-bit version.
-2. Make a folder on your C:\ drive where you can put the Terraform executable. I prefer to place installers in a subfolder (e.g. C:\tools) where you can put binaries.
-3. After the download finishes, go find it in File Explorer. Extract the zip file to the folder you created in step 2.
-4. Open your Start Menu and type in “environment” and the first thing that comes up should be Edit the System Environment Variables option. Click on that and you should see this window.
+1️⃣  Download the appropriate version of Terraform from HashiCorp’s download page. In my case, it’s the Windows 64-bit version.
+2️⃣ Make a folder on your C:\ drive where you can put the Terraform executable. I prefer to place installers in a subfolder (e.g. C:\tools) where you can put binaries.
+3️⃣ After the download finishes, go find it in File Explorer. Extract the zip file to the folder you created in step 2.
+4️⃣ Open your Start Menu and type in “environment” and the first thing that comes up should be Edit the System Environment Variables option. Click on that and you should see this window.
 ![alt text](./images/image.png)
-5. Click on Environment Variables… at the bottom and you’ll see this:
+5️⃣ Click on Environment Variables… at the bottom and you’ll see this:
 ![alt text](./images/image-1.png)
-6. Under the bottom section where it says System Variables, find one called Path and click edit. You’ll then see a list of where to find the binaries that Windows might need for any given reason.
-7. Click New and add the folder path where terraform.exe is located to the bottom of the list. It should look like this when you finish.
+6️⃣ Under the bottom section where it says System Variables, find one called Path and click edit. You’ll then see a list of where to find the binaries that Windows might need for any given reason.
+7️⃣ Click New and add the folder path where terraform.exe is located to the bottom of the list. It should look like this when you finish.
 ![alt text](./images/image-2.png)
-8. Click OK on each of the menus you’ve opened up until there’s no more left.
-9. To make sure that Windows detects the new path, open a new CMD/PowerShell prompt and enter refreshenv. or close the opened PowerShell window and Open New One.
-10. Verify the installation was successful by entering terraform --version. If it returns a version, you’re good to go.
+8️⃣ Click OK on each of the menus you’ve opened up until there’s no more left.
+9️⃣ To make sure that Windows detects the new path, open a new CMD/PowerShell prompt and enter refreshenv. or close the opened PowerShell window and Open New One.
+🔟 Verify the installation was successful by entering terraform --version. If it returns a version, you’re good to go.
 
 ## Run Terraform
 
+__Initialize Backend__
 ```shell
-# Initilize Terraform
 terraform init
-# Format Terraform code
+```
+__Format Terraform code__
+```shell
 terraform fmt
-# Validate Terraform Code
+```
+__Validate Terraform Code__
+```shell
 terraform validate
 ```
 
+__Start Terraform Plan__
 ```shell
-# start Terraform Plan
 terraform plan
 ```
 ```shell
@@ -69,8 +74,8 @@ terraform show -json plan.out > plan.json
 jq '.resource_changes[].address' plan.json
 ```
 
+__Apply Terraform code__
 ```shell
-# Apply Terraform code
 terraform apply
 # Apply Terraform plan.out File
 terraform apply plan.out
@@ -78,13 +83,13 @@ terraform apply plan.out
 terraform apply -auto-approve
 ```
 
+__Show Terraform Output__
 ```shell
-# Show Terraform Output
 terraform output
 ```
 
+__Destroy Terraform code__
 ```shell
-# Destroy Terraform code
 terraform destroy -auto-approve
 ```
 
@@ -95,11 +100,13 @@ terraform workspace $WORKSPACE $ENV
 terraform workspace select $ENV
 terraform apply
 ```
+
 ```shell
 grep -R "resource \"aws_lb\"" .
 grep -R "resource \"aws_lb_target_group\"" .
 grep -R "resource \"aws_ecs_service\"" .
 ```
+
 ## Terraform Info
 
 ```shell
@@ -134,8 +141,9 @@ terraform apply -lock=false
 ### 1️⃣ Create S3 bucket (one time)
 ```shell
 aws s3api create-bucket --bucket terraform-state-bucket-qasem --region $AWS_REGION
-  ```
-> Enable versioning (strongly recommended):
+```
+
+__Enable versioning (strongly recommended):__
 ```shell
 aws s3api put-bucket-versioning --bucket terraform-state-bucket-qasem --versioning-configuration Status=Enabled
 ```
@@ -184,7 +192,7 @@ aws dynamodb create-table \
 ```
 
 ### 3️⃣ Configure Terraform backend
-Add this to backend.tf (or inside terraform {}):
+__Add this to backend.tf (or inside terraform {}):__
 ```json
 terraform {
   backend "s3" {
@@ -196,11 +204,11 @@ terraform {
   }
 }
 ```
-📌 After this:
-* Terraform writes state to S3
-* State is updated after every apply
-* DynamoDB prevents concurrent applies
-* S3 versioning gives rollback safety
+__📌 After this:__
+① Terraform writes state to S3
+② State is updated after every apply
+③ DynamoDB prevents concurrent applies
+④ S3 versioning gives rollback safety
 
 ### 4️⃣ Initialize backend
 ```shell
@@ -213,13 +221,13 @@ __Every time you run:__
 terraform apply
 ```
 __Terraform will:__
-* Lock state in DynamoDB
-* Apply changes
-* Upload updated terraform.tfstate to S3
-* Release lock
+① Lock state in DynamoDB
+② Apply changes
+③ Upload updated terraform.tfstate to S3
+④ Release lock
 
 ### ✅ No manual upload needed.
-🔒 IAM permissions required
+__🔒 IAM permissions required__
 The IAM role/user running Terraform must have:
 ```json
 {
@@ -235,60 +243,60 @@ The IAM role/user running Terraform must have:
   ]
 }
 ```
-Plus DynamoDB permissions if locking is enabled.
+__Plus DynamoDB permissions if locking is enabled.__
 
 ### 🧪 Verify state is in S3
 ```shell
 aws s3 ls s3://terraform-state-bucket-qasem/eks/
 ```
-🚫 Common mistakes to avoid
+__🚫 Common mistakes to avoid__
 ❌ Using local backend + scripts
 ❌ Committing terraform.tfstate to Git
 ❌ Sharing state files without locking
 ❌ Using the same state file for multiple environments
 
-🟢 Bonus: Separate state per environment
+__🟢 Bonus: Separate state per environment__
 key = "eks/${terraform.workspace}/terraform.tfstate"
 
 ❌ Case 1: Local state (no remote backend)
 __Worst case__
 What happens:
-1. Both users run terraform apply
-2. Each has their own local terraform.tfstate
-3. Terraform has no idea the other apply exists
+① Both users run terraform apply
+② Each has their own local terraform.tfstate
+③ Terraform has no idea the other apply exists
 
 __Result:__
 Resources get created/modified twice
-1. State files diverge
-2. Future applies cause deletes, recreates, or drift
-3. Manual recovery required
+① State files diverge
+② Future applies cause deletes, recreates, or drift
+③ Manual recovery required
 
 ⚠️ This is how infrastructures get corrupted.
 ⚠️ Case 2: Remote state without locking
 
-Example: S3 backend without DynamoDB
+> Example: S3 backend without DynamoDB
 
-> What happens:
-User A reads state
-User B reads same state
-Both apply changes
-Last writer wins
+__What happens:__
+① User A reads state
+② User B reads same state
+③ Both apply changes
+④ Last writer wins
 
-> Result:
-State file overwritten
-Lost updates
-Infrastructure may be partially updated
-Terraform might destroy resources unexpectedly later
+__Result:__
+① State file overwritten
+② Lost updates
+③ Infrastructure may be partially updated
+④ Terraform might destroy resources unexpectedly later
 
 ✅ Case 3: Remote state with locking (Best practice)
 
 > Example: S3 + DynamoDB
-What happens:
-1. User A runs terraform apply
-2. Terraform acquires a lock in DynamoDB
-3. User B runs terraform apply
-4. User B is blocked
-5. User B sees:
+__What happens:__
+① User A runs terraform apply
+② Terraform acquires a lock in DynamoDB
+③ User B runs terraform apply
+④ User B is blocked
+⑤ User B sees:
 
 Error acquiring the state lock
 Lock Info:
@@ -296,25 +304,24 @@ Lock Info:
   Operation: OperationTypeApply
   Who:       userA@hostname
 
-
-> Result:
-* Only one apply runs at a time
-* State remains consistent
-* No corruption
+__Result:__
+① Only one apply runs at a time
+② State remains consistent
+③ No corruption
 * User B must wait or retry
 
-🧠 Important details
+__🧠 Important details__
 __What if User A crashes?__
-1. Lock remains
-2. User B cannot apply
-3. Fix (safe):
+① Lock remains
+② User B cannot apply
+③ Fix (safe):
 ```shell
 terraform force-unlock <LOCK_ID>
 ```
 
 __What about terraform plan?__
-1. Multiple users can run plan safely
-2. plan does not lock state (read-only)
+① Multiple users can run plan safely
+② plan does not lock state (read-only)
 ```yaml
 🔒 Recommended setup (must-have)
 terraform {
@@ -334,14 +341,13 @@ __🚨 What NOT to do__
 ❌ Run applies outside CI/CD
 
 __✅ Best practice in teams__
-1. Single CI/CD pipeline runs terraform apply
-2. Developers run terraform plan only
-3. Locking enabled
-4. State stored remotely
+① Single CI/CD pipeline runs terraform apply
+② Developers run terraform plan only
+③ Locking enabled
+④ State stored remotely
 
 __🟢 Summary__
 Setup	Outcome
-Local state	💥 Corruption
-Remote no lock	⚠️ Lost updates
-Remote + lock
-
+① Local state	💥 Corruption
+② Remote no lock	⚠️ Lost updates
+③ Remote + lock
