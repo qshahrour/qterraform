@@ -216,7 +216,8 @@ terraform {
   }
 }
 ```
-📌 __After this:__.
+📌 __After this:__
+
 ① Terraform writes state to S3. 
 ② State is updated after every apply. 
 ③ DynamoDB prevents concurrent applies. 
