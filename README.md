@@ -217,9 +217,9 @@ terraform {
 }
 ```
 __📌 After this:__
-① Terraform writes state to S3
-② State is updated after every apply
-③ DynamoDB prevents concurrent applies
+① Terraform writes state to S3. 
+② State is updated after every apply. 
+③ DynamoDB prevents concurrent applies. 
 ④ S3 versioning gives rollback safety
 
 ### 4️⃣ Initialize backend
