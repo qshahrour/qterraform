@@ -45,8 +45,7 @@ Click on that and you should see this window.
 
 6️⃣ Under the bottom section where it says System Variables, find one called Path and click edit. You’ll then see a list of where to find the binaries that Windows might need for any given reason.
 
-7️⃣ Click New and add the folder path where terraform.exe is located to the bottom of the list.
-It should look like this when you finish.
+7️⃣ Click New and add the folder path where terraform.exe is located to the bottom of the list. It should look like this when you finish.
 ![alt text](./images/image-2.png)
 
 8️⃣ Click OK on each of the menus you’ve opened up until there’s no more left.
