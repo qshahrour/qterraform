@@ -36,11 +36,12 @@ echo "Install files cleaned up."
 
 3️⃣ After the download finishes, go find it in File Explorer. Extract the zip file to the folder you created in step 2.
 
-4️⃣ Open your Start Menu and type in “environment” and the first thing that comes up should be Edit the System Environment Variables option. 
-Click on that and you should see this window.
+4️⃣ Open your Start Menu and type in “environment” and the first thing that comes up should be Edit the System Environment Variables option. Click on that and you should see this window.
+
 ![alt text](./images/image.png)
 
 5️⃣ Click on Environment Variables… at the bottom and you’ll see this:
+
 ![alt text](./images/image-1.png)
 
 6️⃣ Under the bottom section where it says System Variables, find one called Path and click edit. You’ll then see a list of where to find the binaries that Windows might need for any given reason.
