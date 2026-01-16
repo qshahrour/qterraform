@@ -1,5 +1,6 @@
+/*
 resource "aws_ecr_repository" "backend" {
-  name                 = "back"
+  name                 = "backend"
   image_tag_mutability = "MUTABLE"
 }
 
@@ -25,7 +26,7 @@ resource "aws_ecr_lifecycle_policy" "backend_policy" {
 }
 
 resource "aws_ecr_repository" "frontend" {
-  name                 = "front"
+  name                 = "frontend"
   image_tag_mutability = "MUTABLE"
 }
 
@@ -49,4 +50,4 @@ resource "aws_ecr_lifecycle_policy" "frontend_policy" {
     ]
   })
 }
-
+*/

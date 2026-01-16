@@ -1,5 +1,5 @@
 #######################################################
-# Networking (VPC)
+#                 Networking (VPC)
 #######################################################
 #module "vpc" {
 #  source  = "terraform-aws-modules/vpc/aws"
@@ -21,9 +21,8 @@ data "aws_availability_zones" "avilable" {}
 data "aws_security_group" "master_node" {
   id = "sg-066ce679fbd408e77"
 }
-
 #######################################################
-# IAM role for EKS cluster
+#           IAM role for EKS cluster
 #######################################################
 
 resource "aws_iam_role" "eks_cluster_role" {
@@ -43,9 +42,8 @@ resource "aws_iam_role_policy_attachment" "cluster_policy" {
   role       = aws_iam_role.eks_cluster_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
 }
-
 #######################################################
-# EKS Cluster
+#                   EKS Cluster
 #######################################################
 
 resource "aws_eks_cluster" "this" {
@@ -58,17 +56,16 @@ resource "aws_eks_cluster" "this" {
 #    endpoint_private_access       = true
 #    endpoint_public_access        = true
 #    additional_security_group_ids = [data.aws_security_group.master_node.id]
-	#subnet_ids = module.vpc.private_subnets
-	#subnet_ids = aws_subnet.private[*].id
+        #subnet_ids = module.vpc.private_subnets
+        #subnet_ids = aws_subnet.private[*].id
   }
 
   depends_on = [
     aws_iam_role_policy_attachment.cluster_policy
   ]
 }
-
 #######################################################
-# IAM role for Node Group
+#             IAM role for Node Group
 #######################################################
 
 resource "aws_iam_role" "eks_node_role" {
@@ -98,7 +95,6 @@ resource "aws_iam_role_policy_attachment" "ecr_policy" {
   role       = aws_iam_role.eks_node_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
 }
-
 #######################################################
 # Managed Linux Node Group (min 1 / desired 2 / max 3)
 #######################################################
@@ -107,8 +103,8 @@ resource "aws_eks_node_group" "linux" {
   cluster_name    = aws_eks_cluster.this.name
   node_group_name = "linux-ng"
   node_role_arn   = aws_iam_role.eks_node_role.arn
-  subnet_ids 	  = ["subnet-079e2645e13f2a307", "subnet-026807a584d09da41"]
-  #subnet_ids	  = module.vpc.private_subnets
+  subnet_ids      = ["subnet-079e2645e13f2a307", "subnet-026807a584d09da41"]
+  #subnet_ids     = module.vpc.private_subnets
   #subnet_ids     = aws_subnet.private[*].id
 
   scaling_config {
@@ -127,4 +123,3 @@ resource "aws_eks_node_group" "linux" {
     aws_iam_role_policy_attachment.ecr_policy
   ]
 }
-

@@ -1,3 +1,6 @@
+#######################################################
+
+#######################################################
 variable "vpc_name" {
   type = string
   default = "vpc-main"
@@ -36,4 +39,3 @@ variable "eks_admin_policy_arn" {
   type    = string
   default = "arn:aws:iam::aws:policy/AdministratorAccess" # Or customize
 }
-
