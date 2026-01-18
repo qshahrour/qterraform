@@ -114,6 +114,11 @@ terraform apply
 ```
 
 ```shell
+terraform console
+data.aws_availability_zones.avilable.names
+```
+
+```shell
 grep -R "resource \"aws_lb\"" .
 grep -R "resource \"aws_lb_target_group\"" .
 grep -R "resource \"aws_ecs_service\"" .
