@@ -10,7 +10,6 @@ output "eip-mysql-dev-1" {
    value = aws_eip.eip-mysql-dev-1.public_ip
 }
 
-
 /*
 output "ecs_cluster_name" {
   value = aws_ecs_cluster.app_cluster.name
