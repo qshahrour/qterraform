@@ -98,11 +98,24 @@ terraform apply -auto-approve
 __Show Terraform Output__
 ```shell
 terraform output
+terraform output eip-mysql-dev-0
+terraform state list | grep lb
 ```
 
 __Destroy Terraform code__
 ```shell
 terraform destroy -auto-approve
+```
+```shell
+# Destroy one specific resource:
+terraform destroy -target=aws_instance.mysql_dev_0
+terraform destroy -target=aws_lb_target_group.app_tg
+terraform destroy -target=aws_ecs_service.app-service
+terraform plan -destroy -target=aws_instance.mysql_dev_0
+```
+```shell
+# Remove from state (does NOT destroy infra)
+terraform state rm aws_instance.mysql_dev_0
 ```
 
 ```shell
