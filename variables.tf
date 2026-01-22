@@ -47,6 +47,7 @@ variable "mysql_dev" {
     ip_instance = "172.31.0.173"
   }
 }
+
 /*
 resource "aws_key_pair" "new" {
   key_name   = "new"
