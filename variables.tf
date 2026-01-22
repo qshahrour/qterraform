@@ -39,3 +39,19 @@ variable "eks_admin_policy_arn" {
   type    = string
   default = "arn:aws:iam::aws:policy/AdministratorAccess" # Or customize
 }
+
+variable "mysql_dev" {
+  default = {
+    instance_type     = "t3a.large"
+    disk              = "40"
+    ip_instance = "172.31.0.173"
+  }
+}
+/*
+resource "aws_key_pair" "new" {
+  key_name   = "new"
+  public_key = file("new.pem")
+}
+
+
+*/

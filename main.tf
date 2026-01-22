@@ -19,5 +19,9 @@ terraform {
 }
 
 provider "aws" {
+<<<<<<< HEAD
   region = var.region
+=======
+  region = "eu-central-1"
+>>>>>>> 5c9ccf5 (add ec2.tf)
 }

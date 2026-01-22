@@ -1,6 +1,12 @@
 #######################################################
 #             Define a VPC and Networking
 #######################################################
+
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
+
 resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"
 }
@@ -8,10 +14,43 @@ resource "aws_vpc" "main" {
 resource "aws_subnet" "public" {
   count                   = 2
   vpc_id                  = aws_vpc.main.id
-  cidr_block              = cidrsubnet(aws_vpc.main.cidr_block, 8, count.index)
+  cidr_block              = element(["10.0.1.0/24", "10.0.2.0/24"], count.index)
   map_public_ip_on_launch = true
+  availability_zone       = data.aws_availability_zones.available.names[count.index]
+  tags = {
+    Name = "public-${count.index + 1}"
+  }
 }
 
+resource "aws_route_table" "public" {
+  vpc_id = aws_vpc.main.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.igw.id
+  }
+
+  tags = {
+    Name = "public-rt"
+  }
+}
+
+resource "aws_route_table_association" "public" {
+  for_each       = { for idx, subnet in aws_subnet.public : idx => subnet }
+  subnet_id      = each.value.id
+  route_table_id = aws_route_table.public.id
+}
+
+
+resource "aws_internet_gateway" "igw" {
+  vpc_id = aws_vpc.main.id
+
+  tags = {
+    Name = "main-igw"
+  }
+}
+
+/*
 resource "aws_security_group" "ecs_sg" {
   name        = "ecs_sg"
   vpc_id      = aws_vpc.main.id
@@ -77,12 +116,12 @@ resource "aws_ecs_service" "app_service" {
   }
 
   load_balancer {
-    target_group_arn = aws_lb_target_group.app.arn
+#    target_group_arn = aws_lb_target_group.app_tg.arn
     container_name   = "app"
     container_port   = 80
   }
 
-  depends_on = [aws_ecs_cluster.app_cluster]
+#  depends_on = [aws_lb_listener.app]
 }
 #######################################################
 #                   Create ALB
@@ -100,15 +139,20 @@ resource "aws_lb" "app" {
 #               Create Target Group
 #######################################################
 
-resource "aws_lb_target_group" "app" {
-  name        = "app-tg"
-  port        = 80
-  protocol    = "HTTP"
-  vpc_id      = aws_vpc.main.id
+resource "aws_lb_target_group" "app_tg" {
+  name     = "app-tg"
+  port     = 80
+  protocol = "HTTP"
+  vpc_id   = aws_vpc.main.id
   target_type = "ip"
 
   health_check {
-    path = "/"
+    path                = "/"
+    matcher             = "200-399"
+    interval            = 30
+    timeout             = 5
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
   }
 }
 #######################################################
@@ -121,6 +165,7 @@ resource "aws_lb_listener" "app" {
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.app.arn
+    target_group_arn = aws_lb_target_group.app_tg.arn
   }
 }
+*/
