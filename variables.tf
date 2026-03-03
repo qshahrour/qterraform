@@ -40,12 +40,19 @@ variable "eks_admin_policy_arn" {
 
 variable "main" {
   default = {
-    instance_type     = "t3.medium"
+    instance_type     = "t3.large"
     disk              = "40"
     ip_instance       = "172.31.27.120"
   }
 }
 
+variable "worker" {
+  default = {
+    instance_type     = "t3.medium"
+    disk              = "40"
+    ip_instance       = "172.31.27.120"
+  }
+}
 /*
 resource "aws_key_pair" "new" {
   key_name   = "new"

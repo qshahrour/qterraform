@@ -118,3 +118,42 @@ resource "aws_eip" "eip-main" {
   }
 }
 
+resource "aws_instance" "worker-1" {
+  ami                         = data.aws_ami.latest-ubuntu.id
+  instance_type               = var.worker.instance_type
+  key_name                    = data.aws_key_pair.careem.key_name
+  availability_zone           = data.aws_availability_zones.avilable.names[1]
+  ebs_optimized               = true
+  root_block_device {
+    volume_type                 = "gp3"
+    volume_size                 = var.worker.disk
+  }
+  volume_tags = {
+    Name = "worker-1"
+    map-migrated = "worker-server-1"
+  }
+  vpc_security_group_ids = [
+    aws_security_group.main.id
+  ]
+  subnet_id = "subnet-096874f8f787a013a"
+}
+
+resource "aws_instance" "worker-2" {
+  ami                         = data.aws_ami.latest-ubuntu.id
+  instance_type               = var.worker.instance_type
+  key_name                    = data.aws_key_pair.careem.key_name
+  availability_zone           = data.aws_availability_zones.avilable.names[2]
+  ebs_optimized               = true
+  root_block_device {
+    volume_type                 = "gp3"
+    volume_size                 = var.worker.disk
+  }
+  volume_tags = {
+    Name = "worker-2"
+    map-migrated = "worker-server-2"
+  }
+  vpc_security_group_ids = [
+    aws_security_group.main.id
+  ]
+  subnet_id = "subnet-080e27c5aa347ca4f"
+}
