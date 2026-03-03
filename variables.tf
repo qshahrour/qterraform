@@ -40,9 +40,9 @@ variable "eks_admin_policy_arn" {
 
 variable "main" {
   default = {
-    instance_type     = "t3.large"
+    instance_type     = "t3.medium"
     disk              = "40"
-    ip_instance       = "172.31.16.20"
+    ip_instance       = "172.31.27.120"
   }
 }
 
