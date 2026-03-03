@@ -15,11 +15,11 @@
 #  enable_nat_gateway = true
 #  single_nat_gateway = true
 #}
-
+/*
 data "aws_availability_zones" "avilable" {}
 
 data "aws_security_group" "master_node" {
-  id = "sg-066ce679fbd408e77"
+  id = "sg-00b2ccd6e4618579e"
 }
 #######################################################
 #           IAM role for EKS cluster
@@ -123,3 +123,4 @@ resource "aws_eks_node_group" "linux" {
     aws_iam_role_policy_attachment.ecr_policy
   ]
 }
+*/

@@ -1,5 +1,5 @@
 
-
+/*
 # 1️⃣ Create the IAM Role
 resource "aws_iam_role" "deckhouse" {
   name = "deckhouse-role"
@@ -30,3 +30,4 @@ resource "aws_iam_role_policy_attachment" "deckhouse_attach" {
   policy_arn = aws_iam_policy.deckhouse.arn
 }
 
+*/

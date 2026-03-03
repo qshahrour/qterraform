@@ -3,24 +3,22 @@
 #######################################################
 variable "vpc_name" {
   type = string
-  default = "vpc-main"
+  default = "main"
 }
 
 variable "vpc_id" {
   type = string
-  default = "vpc-0773e5b7c6cb57143"
+  #default = ""
+  #default = "vpc-0773e5b7c6cb57143"
 }
 
 variable "subnet_ids" {
-  type = list(string)
-  default = [
-    "subnet-079e2645e13f2a307",
-    "subnet-026807a584d09da41"
-  ]
+  type = string
+  default = "subnet-08bedcd3bdf2e58e6"
 }
 
 variable "region" {
-  default = "eu-central-1"
+  default = "eu-north-1"
 }
 
 variable "github_owner" {
@@ -40,11 +38,11 @@ variable "eks_admin_policy_arn" {
   default = "arn:aws:iam::aws:policy/AdministratorAccess" # Or customize
 }
 
-variable "mysql_dev" {
+variable "main" {
   default = {
-    instance_type     = "t3a.large"
+    instance_type     = "t3.large"
     disk              = "40"
-    ip_instance = "172.31.0.173"
+    ip_instance       = "172.31.16.20"
   }
 }
 

@@ -2,10 +2,10 @@ terraform {
   required_version = ">= 1.3.0"
   
   backend "s3" {
-    bucket          = "eks-terraform-state-backend-qasem"
+    bucket          = "eks-terraform-state-backend-shahrour"
     key             = "tfstate"
-    region          = "us-east-1"
-    profile         = "new"
+    region          = "eu-north-1"
+    profile         = "default"
     encrypt         = true
     use_lockfile    = true
   }
@@ -19,5 +19,5 @@ terraform {
 }
 
 provider "aws" {
-  region = "eu-central-1"
+  region = "eu-north-1"
 }

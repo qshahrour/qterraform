@@ -1,7 +1,7 @@
 #######################################################
 #             Define a VPC and Networking
 #######################################################
-
+/*
 data "aws_availability_zones" "available" {
   state = "available"
 }
